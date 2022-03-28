@@ -1,0 +1,20 @@
+
+{
+    "region" : "us-east-1",
+    "configuration" : "Release",
+    "framework"     : "net6.0",
+    "self-contained" : true,
+    "application"    : "StarApp1",
+    "environment"    : "StarApp1-prod",
+    "enable-xray"    : false,
+    "enhanced-health-type" : "basic",
+    "additional-options"   : "",
+    "solution-stack"       : "64bit Amazon Linux 2 v2.2.10 running .NET Core",
+    "environment-type"     : "SingleInstance",
+    "cname"                : "starapp1-prod",
+    "instance-type"        : "t3a.medium",
+    "key-pair"             : "my",
+    "instance-profile"     : "aws-elasticbeanstalk-ec2-role",
+    "service-role"         : "aws-elasticbeanstalk-service-role",
+    "proxy-server"         : "none"
+}

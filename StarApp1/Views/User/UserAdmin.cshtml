@@ -1,0 +1,133 @@
+﻿@using Org.BouncyCastle.Asn1.Ocsp
+@model IEnumerable<StarApp1.Models.UserAdmin>
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "UserAdmin";
+ 
+}
+@if (ViewBag.Message != null)
+    {
+        <div class="alert alert-danger">
+            <strong>@ViewBag.Message!</strong>
+        </div>
+    }
+else
+{
+<header>
+    
+               <div class="text-end">
+                  <strong>Welcome..! @HttpContextAccessor.HttpContext.Session.GetString("Name")</strong> 
+               </div>
+              
+               <div class = "text-end">
+                    @if (@HttpContextAccessor.HttpContext.Session.GetString("UserName") != null)
+                            {
+                                @using (Html.BeginForm("LogOut", "User", FormMethod.Post))
+                                {
+
+                                    <input type="submit" value=" Log Out " class="btn btn-secondary"/>
+                                }
+                            }
+               </div>           
+                 
+    
+  
+</header>
+<h3 class="text-center">Admin Dashboard</h3>
+<hr/>
+                
+<table class = "table justify-content-center">
+    <thread>
+        <tr>
+       
+        <th scope="auto">
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th scope="auto">
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        
+        <th scope="auto">
+            @Html.DisplayNameFor(model => model.ActiveFrom)
+        </th>
+        <th scope="auto">
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th scope="auto">
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th scope="auto">
+            @Html.DisplayNameFor(model => model.Confirmation)
+        </th>
+        
+    </tr>
+    </thread>
+    <tbody>
+        @if (Model.Count()>0)
+                {
+            @foreach (var item in Model)
+            {
+                <thread>
+                    @using (Html.BeginForm())
+                    {
+                        <tr>
+                            <td scope ="col">
+                                @Html.DisplayFor(modelItem=>item.UserName)
+                            </td>
+                            <td scope ="col">
+                                @Html.DisplayFor(modelItem=>item.Name)
+                            </td>
+                            <td scope ="col">
+                                @Html.DisplayFor(modelItem=>item.ActiveFrom)
+                            </td>
+                            <td scope ="col">
+                                @Html.DisplayFor(modelItem=>item.Role)
+                            </td>
+                            <td scope ="col">
+                                @Html.DisplayFor(modelItem=>item.Status)
+                            </td>
+                            <td scope ="col">
+                                @if(@item.Role!="Admin")
+                                {
+                                    @if (@item.Status== "Requested")
+                                    {                                   
+                                        <button type="button" name="SubmitBut" value="Approve" class="btn btn-sm btn-success" onclick ="location.href='@Url.Action("getApprove", "User",new{UserName=@item.UserName,name=@item.Name})'">Approve</button>                          
+                                    }
+                                    @if (@item.Status== "Requested")
+                                    {             
+                                        <button type="button" name="SubmitButton" value="Decline" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("getDecline", "User",new{UserName=@item.UserName,name=@item.Name})'" >Decline</button>
+                                    }
+                                    @if (@item.Status== "Active")
+                                    {
+                                        <button type="button" name="SubmitButton" value="Decline" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("getDecline", "User",new{UserName=@item.UserName,name=@item.Name})'" >Decline</button>
+                                    }
+                                    @if (@item.Status== "Inactive")
+                                    {
+                                        <button type="button" name="SubmitButton" value="Approve" class="btn btn-sm btn-secondary" disabled onclick="location.href='@Url.Action("getApprove", "User",new{UserName=@item.UserName})'" >Declined</button>
+                                        <button type="button" name="SubmitButton" value="Delete" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("DeleteAccess", "User",new{UserName=@item.UserName})'" >Delete</button>
+                                    }
+                                    <button type="button" name="SubmitButton" value="Edit" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("Update", "User",new{UserName=@item.UserName})'" >Edit</button>
+
+                                }
+
+                                
+                               
+                            </td>
+                        </tr>
+                    }
+                </thread>
+            }
+
+        }
+
+</tbody>
+</table>
+<footer class= "page-footer text-center">
+    @using (Html.BeginForm("SignUp", "User", FormMethod.Post))
+                                {
+
+                                    <input type="submit" value=" ADD " class="btn btn-primary"/>
+                                }
+</footer>
+}

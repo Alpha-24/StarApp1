@@ -1,0 +1,42 @@
+﻿@model StarApp1.Models.UserAdmin
+
+<h4>Update Role</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserName" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" disabled />
+                
+            </div>
+            
+            <div class="form-group">
+                <br/>
+                <label asp-for="RoleName" class="control-label"></label>
+               @Html.DropDownListFor(x=>x.RoleId,Model.RoleName ,new{@class="my"})
+               <br/>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control"disabled />
+                
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @ViewBag.msg
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

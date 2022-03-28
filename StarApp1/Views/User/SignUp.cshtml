@@ -1,0 +1,79 @@
+﻿@model StarApp1.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "SignUp";
+}
+
+<h1 class="text-center">SignUp</h1>
+
+@if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.status))
+{
+    if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success">
+            <strong>Success!</strong>@ViewBag.msg
+        </div>
+    }
+}
+else
+{
+    
+    <hr />
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="SignUp">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+                @Html.ValidationMessage("EmailExist", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <br/>
+                <label asp-for="RoleName" class="control-label"></label>
+               @Html.DropDownListFor(x=>x.RoleId,Model.RoleName ,new{@class="my"})
+               <br/>
+                @*<span asp-validation-for="RoleName" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="form-group text-center">
+                <input type="submit" value="Request Access" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+if (ViewBag.Message != null)
+        {
+            <div class="alert alert-danger">
+                <strong>Error!</strong>@ViewBag.msg
+            </div>
+        }
+}
+
+ @*<div>
+    <span class= "text-success">
+        @ViewBag.msg 
+    </span>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

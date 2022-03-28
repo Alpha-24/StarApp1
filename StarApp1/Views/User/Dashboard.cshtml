@@ -1,0 +1,272 @@
+﻿@model StarApp1.Models.AllowanceDashboardViewModel 
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Dashboard";
+    List<AllowanceDashboardViewModel> listEmployee = ViewBag.listEmployee;
+    //List<AllowanceDashboardViewModel> Data = ViewBag.Data;
+    
+    //Pager pager = new Pager();
+    //int pageNo = 0;
+
+    //if(ViewBag.pager!=null)
+    //{
+    //    pager = ViewBag.Pager;
+    //    pageNo = pager.CurrentPage;
+    //}
+}
+
+
+<header>
+    
+               <div class="text-end">
+                  <strong>Welcome..! @HttpContextAccessor.HttpContext.Session.GetString("Name")</strong> 
+               </div>
+              
+               <div class = "text-end">
+                    @if (@HttpContextAccessor.HttpContext.Session.GetString("UserName") != null)
+                            {
+                                @using (Html.BeginForm("LogOut", "User", FormMethod.Post))
+                                {
+
+                                    <input type="submit" value=" Log Out " class="btn btn-secondary"/>
+                                }
+                            }
+               </div>           
+
+</header>
+ <h3 class="text-center">Dashboard</h3>
+ <hr/>
+
+<form asp-action="Dashboard" Method="post">
+    <table class="table justify-content-center">
+    <tr>
+        <td>
+        <div class="form-group">
+               <label asp-for="Period" class="control-label"></label>
+               @Html.DropDownListFor(x=>x.PeriodStart,Model.Period ,"Select the period")
+               <br/>
+        </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <label asp-for="Project" class="control-label"></label>
+               @Html.DropDownListFor(x=>x.ProjectId,Model.Project,"Select the Project")
+               <br/>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <label asp-for="TransportAllowance" class="control-label"></label>
+                <input asp-for="TransportAllowance" class="form-control" />
+                <span asp-validation-for="TransportAllowance" class="text-danger"></span>
+               <br/>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <label asp-for="NightShiftAllowance" class="control-label"></label>
+               <input asp-for="NightShiftAllowance" class="form-control"  />
+                <span asp-validation-for="NightShiftAllowance" class="text-danger"></span>
+
+               <br/>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <label asp-for="AfternoonShiftAllowance" class="control-label"></label>
+               <input asp-for="AfternoonShiftAllowance" class="form-control" />
+                <span asp-validation-for="AfternoonShiftAllowance" class="text-danger"></span>
+
+               <br/>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <input type="submit" value="Apply Filter" class="btn btn-primary" />
+            </div>
+        </td>
+     </tr>
+    </table>
+    <br/>
+
+</form>
+            <div class="form-group justify-content-center">
+                <br/>
+                
+                 @using (Html.BeginForm("ImportToDb", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    //<label asp-for="browseFile" class="control-label"></label>
+                    <input type="file" name="file" class="form-control" />
+                    <input type="submit" value=" Import " class="btn btn-primary"/>
+                }
+                
+            </div>
+
+<br/>
+
+<table class="table table-striped justify-content-center"  >
+<thread>
+<tr>
+<th>
+    
+                @using (Html.BeginForm("Dashboard", "User", FormMethod.Post, new { sortValue = "Name"}))
+                    { 
+                    <input name="sortValue" type="submit" value="Name" class="btn btn-light"/>
+                    }
+  
+</th>
+
+<th>
+    
+                @using (Html.BeginForm("Dashboard", "User", FormMethod.Post, new { sortValue="SAPId" }))
+                    { 
+                    <input name="sortValue" type="submit" value=" SAPId " class="btn btn-light"/>
+                    }
+   
+</th>
+
+<th>
+@Html.DisplayNameFor(model => model.Hours)
+</th>
+
+<th >
+@Html.DisplayNameFor(model => model.LeaveHours)
+</th>
+
+<th >
+@Html.DisplayNameFor(model => model.AfternoonShiftDays)
+</th>
+
+<th >
+@Html.DisplayNameFor(model => model.NightShiftDays)
+</th>
+
+<th >
+@Html.DisplayNameFor(model => model.TotalDays)
+</th>
+
+<th >
+@Html.DisplayNameFor(model => model.TransportAllowance)
+</th>
+
+<th >
+@Html.DisplayNameFor(model => model.TotalAllowance)
+</th>
+<th >
+@Html.DisplayNameFor(model => model.ApprovalStatus)
+</th>
+
+</tr>
+</tr>
+    </thread>
+    <tbody>
+        
+           @foreach (var item in listEmployee)
+            {
+                <thread>
+                @using(Html.BeginForm())
+                {
+                    <tr class = " justify-content-center">
+	                        <td scope ="col" align="center">
+	                            @Html.DisplayFor(modelItem=>item.Name)
+	                        </td>
+	                        <td scope ="col" align="center">
+	                            @Html.DisplayFor(modelItem=>item.SAPid)
+	                        </td>
+	                        <td scope ="col" align="center">
+	                            @Html.DisplayFor(modelItem=>item.Hours)
+	                        </td>
+	                        <td scope ="col" align="center">
+	                            @Html.DisplayFor(modelItem=>item.LeaveHours)
+	                        </td>
+	                        <td scope ="col" align="center">
+	                            @Html.DisplayFor(modelItem=>item.AfternoonShiftDays)
+	                        </td>
+                            <td scope ="col" align="center">
+	                            @Html.DisplayFor(modelItem=>item.NightShiftDays)
+	                        </td>
+                            <td scope ="col" align="center">
+	                            @Html.DisplayFor(modelItem=>item.TotalDays)
+	                        </td>
+                            <td scope ="col" align="center">
+	                            @Html.DisplayFor(modelItem=>item.TransportAllowance)
+	                        </td>
+                            <td scope ="col" align="center" >
+	                            @Html.DisplayFor(modelItem=>item.TotalAllowance)
+	                        </td>
+                            <td scope ="col" align="center">
+	                            @Html.DisplayFor(modelItem=>item.ApprovalStatus)
+	                        </td>
+                            <td scope ="col" >
+	                            <button type="button" value="Decline" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("UpdateShift", "User",new{ LogId=@item.LogId , Hours=@item.Hours})'" >Update</button>
+	                        </td>
+	                        
+	                </tr>
+                    
+                }
+                </thread>
+            
+            }
+           
+
+</tbody>
+
+</table>
+
+@*<div class ="container">
+    @if(pager.TotalPages>0)
+    {
+        
+        <ul class = "pagination justify-content-end">
+            @if(pager.CurrentPage>1)
+             {
+             <li class = "page-item ">
+                 
+                    <a class = "page-link"  asp-route-pg="1">First</a>
+                   
+                </li>
+                <li class = "page-item " >
+                   
+                    
+                  <a class = "page-link"   asp-route-pg="@(pager.CurrentPage-1)">Previous</a>    
+                   
+                    
+                </li>
+             }
+
+            @for(var pge = pager.StartPage;pge<=pager.EndPage;pge++)
+            {
+                <li class = "page-item @(pge==pager.CurrentPage? "active":"")">
+                    
+                    <a class = "page-link" asp-route-pg="@pge">@pge</a>
+                   
+                </li>
+            }
+            @if(pager.CurrentPage<pager.TotalPages)
+            {
+                 <li class = "page-item ">
+                     
+                    <a class = "page-link"  asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+                    
+                </li>
+                <li class = "page-item ">
+                    
+                    <a class = "page-link"  asp-route-pg="@(pager.TotalPages)">Last</a>
+                   
+                </li>
+            }
+        </ul>
+    }
+    </div>*@
+
+  <div class="form-group text-center justify-content-center">
+
+                <button type="button" name="SubmitButton" value="Download" class="btn btn-sm btn-success" onclick ="location.href='@Url.Action("ExportToCSV", "User")'">Approve And Export</button>
+            </div>
+
+
+
+
+
+   
